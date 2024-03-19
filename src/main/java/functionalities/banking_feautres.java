@@ -44,10 +44,32 @@ public class banking_feautres {
         {
             System.out.println("Your Pin can not be more or less than 4 digits");
             Pin = input.nextLine();
-
         }
+
     }
 
+    public void Registration() {
+        boolean condition = true;
+
+//        while (condition) {
+            System.out.printf("Please enter your Name: ");
+            String name = input.nextLine();
+
+            System.out.println("please enter your Surname: ");
+            String surname = input.nextLine();
+
+            System.out.println("please enter your South African ID_Number: ");
+            String id_number = input.nextLine();
+
+            if (id_number.length() < 13 || id_number.length() > 13)
+            {
+                System.out.println("ID_number must be 13 digits: ");
+                id_number = input.nextLine();
+            }
+
+        System.out.println("please wait while we verify...");
+            //        }
+    }
 
     public static void main(String[] args) {
 
