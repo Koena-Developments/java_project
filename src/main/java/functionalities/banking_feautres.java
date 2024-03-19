@@ -1,5 +1,9 @@
 package functionalities;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.invoke.StringConcatException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class banking_feautres {
@@ -48,7 +52,20 @@ public class banking_feautres {
 
     }
 
-    public void Registration() {
+    public String Account_Number_Generator(String acc_num)
+    {
+        char[] accArray = acc_num.toCharArray();
+        Random rand = new Random();
+        for (int i = accArray.length - 1; i > 0; i--) {
+            int j = rand.nextInt(i + 1);
+            char temp = accArray[i];
+            accArray[i] = accArray[j];
+            accArray[j] = temp;
+        }
+        return new String(accArray);
+    }
+
+    public String[] Registration() {
         boolean condition = true;
 
 //        while (condition) {
@@ -66,9 +83,28 @@ public class banking_feautres {
                 System.out.println("ID_number must be 13 digits: ");
                 id_number = input.nextLine();
             }
+            else {
+                this.AccountNumber = Account_Number_Generator(id_number);
+            }
 
         System.out.println("please wait while we verify...");
-            //        }
+        System.out.printf("Welcome %s your new acc_number is %s ", name, this.AccountNumber);
+
+        return new String[]{name,surname,id_number,this.AccountNumber};
+    }
+
+    public void dataBase(String Name, String Surname, String Account_number, String id_number)
+    {
+        try {
+            FileWriter writer = new FileWriter("dataBase.txt");
+            writer.write("Name:  "+ Name);
+            writer.write("\nSurname: "+ Surname);
+            writer.write("\nAccNum: "+ Account_number);
+            writer.write("\nID_number: "+ id_number);
+            writer.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
