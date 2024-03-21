@@ -3,9 +3,6 @@ import functionalities.banking_feautres;
 
 public class BankingApp {
 
-    // unpack registration
-    // create database
-
 
     public static void main(String[] args) {
         banking_feautres customer = new banking_feautres();

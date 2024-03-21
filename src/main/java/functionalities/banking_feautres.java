@@ -1,8 +1,6 @@
 package functionalities;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.invoke.StringConcatException;
+import java.io.*;
+//import java.lang.invoke.StringConcatException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -43,14 +41,27 @@ public class banking_feautres {
 
         System.out.println("Please enter your 4-digit Pin here:  \n");
         String Pin = input.nextLine();
-
+        
         if (Pin.length() != 4)
         {
             System.out.println("Your Pin can not be more or less than 4 digits");
             Pin = input.nextLine();
         }
 
-    }
+        // code is still being tested
+        try {
+            File local_database = new File("database.txt");
+            Scanner reader = new Scanner(local_database);
+            while(reader.hasNextLine())
+            {
+                String data = reader.nextLine();
+                System.out.println(data);
+            }
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        }
 
     public String Account_Number_Generator(String acc_num)
     {
@@ -95,21 +106,31 @@ public class banking_feautres {
 
     public void dataBase(String Name, String Surname, String Account_number, String id_number)
     {
-        try {
-            FileWriter writer = new FileWriter("dataBase.txt");
-            writer.write("Name:  "+ Name);
-            writer.write("\nSurname: "+ Surname);
-            writer.write("\nAccNum: "+ Account_number);
-            writer.write("\nID_number: "+ id_number);
-            writer.close();
-        }catch (IOException e){
-            e.printStackTrace();
+        boolean Bol = true;
+        while (Bol)
+        {
+            if(Name == "" && Surname == "" && Account_number == "" && id_number == "")
+            {
+                System.out.println("fields can not be empty");
+            }
+            else {
+                try {
+                    FileWriter writer = new FileWriter("dataBase.txt");
+                    writer.write("Name:  "+ Name);
+                    writer.write("\nSurname: "+ Surname);
+                    writer.write("\nAccNum: "+ Account_number);
+                    writer.write("\nID_number: "+ id_number);
+                    writer.close();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    public static void main(String[] args) {
 
-    }
+
 }
 
 
