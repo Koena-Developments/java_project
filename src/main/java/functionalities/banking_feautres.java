@@ -46,7 +46,7 @@ public class banking_feautres {
                 sb.append(", ");
             }
         }
-        this.Pin = sb.toString();
+//        this.Pin = sb.toString();
         return sb.toString().substring(0,4);
     }
 
@@ -71,7 +71,7 @@ public class banking_feautres {
     }
     Scanner input = new Scanner(System.in);
 
-    public void Login(JSONObject database)
+    public void Login()
     {
         System.out.println("Welcome to LenX Bank \n");
 
@@ -87,16 +87,14 @@ public class banking_feautres {
             Pin = input.nextLine();
         }
         JSONParser retrieving = new JSONParser();
-
         try {
             /*
                 seem not to be reading from the json file
              */
-            database = (JSONObject) retrieving.parse(new FileReader("database.json"));
+            JSONObject database = (JSONObject) retrieving.parse(new FileReader("database.json"));
             String clientAccNum = (String) database.get("Client_Account_number");
-            String clientPin = (String) database.get("Client_Pin");
-
-            if(AccountNUmber == clientAccNum && Pin == clientPin)
+            String clientPin = (String) database.get("Client_pin");
+            if(AccountNUmber.equals(clientAccNum) && Pin.equals(clientPin))
             {
                 System.out.println("Welcome Your are Logged in !!");
             }
@@ -152,13 +150,13 @@ public class banking_feautres {
             }
             else {
                 this.AccountNumber = Account_Number_Generator(id_number);
-                this.Pin = pinGenerator();
+//                this.Pin = pinGenerator();
             }
 
         System.out.println("please wait while we verify...");
         System.out.printf("Welcome %s your new acc_number is %s ", name, this.AccountNumber);
 
-        return new String[]{name,surname,id_number,this.AccountNumber, this.Pin};
+        return new String[]{name,surname,id_number,this.AccountNumber, pinGenerator()};
     }
 
     public JSONObject dataBase(String Name, String Surname, String Account_number, String id_number, String pin)

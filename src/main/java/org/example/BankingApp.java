@@ -17,9 +17,9 @@ public class BankingApp {
         String account_number = registrationInfo[3];
 
         String pin = registrationInfo[4];
-        JSONObject db = customer.dataBase(name, surname, account_number,id_number, pin);
+        customer.dataBase(name, surname, account_number,id_number, pin);
 
-        customer.Login(db);
+        customer.Login();
 
 
     }
