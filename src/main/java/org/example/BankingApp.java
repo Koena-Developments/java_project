@@ -13,7 +13,8 @@ public class BankingApp {
         String surname = registrationInfo[1];
         String id_number = registrationInfo[2];
         String account_number = registrationInfo[3];
-        customer.dataBase(name, surname, account_number,id_number);
+        String pin = registrationInfo[4];
+        customer.dataBase(name, surname, account_number,id_number, pin);
 
     }
 }

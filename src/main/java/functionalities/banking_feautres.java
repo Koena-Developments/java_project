@@ -2,6 +2,9 @@ package functionalities;
 import java.io.*;
 //import java.lang.invoke.StringConcatException;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -32,6 +35,21 @@ public class banking_feautres {
 
     }
 
+    public String pinGenerator()
+    {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            int randomNumber = random.nextInt(); // Generate a random integer
+            sb.append(randomNumber);
+            if (i < 3) {
+                sb.append(", ");
+            }
+        }
+        this.Pin = sb.toString();
+        return sb.toString();
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -53,7 +71,7 @@ public class banking_feautres {
     }
     Scanner input = new Scanner(System.in);
 
-    public void Login()
+    public void Login(JSONObject database)
     {
         System.out.println("Welcome to LenX Bank \n");
 
@@ -68,24 +86,13 @@ public class banking_feautres {
             System.out.println("Your Pin can not be more or less than 4 digits");
             Pin = input.nextLine();
         }
+        JSONParser retrieving = new JSONParser();
 
-        // code is still being tested
-
-        /*
-        check the username entered if it exists in the database if not then
-        prompt user to register, else if existing show client details
-         */
         try {
-            File local_database = new File("database.txt");
-            Scanner reader = new Scanner(local_database);
-            while(reader.hasNextLine())
-            {
-                String data = reader.nextLine();
-                System.out.println(data);
-            }
-        } catch (FileNotFoundException e)
+            database = (JSONObject) retrieving.parse(new FileReader("database.json"));
+        }catch (IOException | ParseException r)
         {
-            e.printStackTrace();
+            r.printStackTrace();
         }
         }
 
@@ -99,7 +106,7 @@ public class banking_feautres {
             accArray[i] = accArray[j];
             accArray[j] = temp;
         }
-        return new String(accArray);
+        return new String(accArray).substring(0,10);
     }
 
     public String[] Registration() {
@@ -122,41 +129,35 @@ public class banking_feautres {
             }
             else {
                 this.AccountNumber = Account_Number_Generator(id_number);
+                this.Pin = pinGenerator();
             }
 
         System.out.println("please wait while we verify...");
         System.out.printf("Welcome %s your new acc_number is %s ", name, this.AccountNumber);
 
-        return new String[]{name,surname,id_number,this.AccountNumber};
+        return new String[]{name,surname,id_number,this.AccountNumber, this.Pin};
     }
 
-    public void dataBase(String Name, String Surname, String Account_number, String id_number)
+    public JSONObject dataBase(String Name, String Surname, String Account_number, String id_number, String pin)
     {
-        boolean Bol = true;
-        while (Bol)
+        JSONObject database = new JSONObject();
+        database.put("Client_Name", Name);
+        database.put("\n"+"Client_Surname", Surname);
+        database.put("Client_Account_number", Account_number);
+        database.put("Client_ID_number", id_number);
+        database.put("Client_pin", pin);
+        try
         {
-            if(Name == "" && Surname == "" && Account_number == "" && id_number == "")
-            {
-                System.out.println("fields can not be empty");
-            }
-            else {
-                try {
-                    FileWriter writer = new FileWriter("dataBase.txt");
-                    writer.write("Name:  "+ Name);
-                    writer.write("\nSurname: "+ Surname);
-                    writer.write("\nAccNum: "+ Account_number);
-                    writer.write("\nID_number: "+ id_number);
-                    writer.close();
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
+            FileWriter jsonwriter = new FileWriter("database.json");
+            jsonwriter.write(database.toJSONString());
+            jsonwriter.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
+        System.out.printf("Registered!!! welcome %s ", Name);
+    return database;
     }
-
-
-
 }
 
 
