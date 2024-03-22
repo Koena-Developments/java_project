@@ -1,6 +1,7 @@
 package functionalities;
 import java.io.*;
 //import java.lang.invoke.StringConcatException;
+import org.json.simple.JSONObject;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,6 +11,26 @@ public class banking_feautres {
     private String Pin;
     private String AccountNumber;
 
+    public String[] birthDayRetriver(String id_num)
+    {
+        /*
+            The intention of this method is to return the year and the day and the month when given the
+            correct id_number of 13 characters
+            it returns an array of strings that we need to unpack when writing to the json file
+         */
+        if(id_num.isEmpty() == true)
+        {
+            System.out.println("There is no ID number provided: ");
+        }
+            // 9906165353086
+            // 012345678910
+            String year = id_num.substring(0,3);
+            String Month = id_num.substring(3,5);
+            String Day = id_num.substring(5,7);
+
+            return new String[]{year, Month, Day};
+
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -49,6 +70,11 @@ public class banking_feautres {
         }
 
         // code is still being tested
+
+        /*
+        check the username entered if it exists in the database if not then
+        prompt user to register, else if existing show client details
+         */
         try {
             File local_database = new File("database.txt");
             Scanner reader = new Scanner(local_database);
