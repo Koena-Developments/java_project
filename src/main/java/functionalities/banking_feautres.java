@@ -90,6 +90,26 @@ public class banking_feautres {
 
         try {
             database = (JSONObject) retrieving.parse(new FileReader("database.json"));
+            String clientAccNum = (String) database.get("Client_Account_number");
+            String clientPin = (String) database.get("Client_Pin");
+
+            if(AccountNUmber == clientAccNum && Pin == clientPin)
+            {
+                System.out.println("Welcome Your are Logged in !!");
+            }
+            else{
+                System.out.println("oops seems like youre not a member wanna register? Y/N");
+                char option = 'N';
+
+                if (option == 'Y')
+                {
+                    Registration();
+                }
+                else {
+                    System.out.println("Please try again next time BYE! ");
+                    System.exit(0);
+                }
+            }
         }catch (IOException | ParseException r)
         {
             r.printStackTrace();
@@ -150,6 +170,7 @@ public class banking_feautres {
         {
             FileWriter jsonwriter = new FileWriter("database.json");
             jsonwriter.write(database.toJSONString());
+
             jsonwriter.close();
         } catch (IOException e)
         {
