@@ -47,7 +47,7 @@ public class banking_feautres {
             }
         }
         this.Pin = sb.toString();
-        return sb.toString();
+        return sb.toString().substring(0,4);
     }
 
     public void setName(String name) {
@@ -89,6 +89,9 @@ public class banking_feautres {
         JSONParser retrieving = new JSONParser();
 
         try {
+            /*
+                seem not to be reading from the json file
+             */
             database = (JSONObject) retrieving.parse(new FileReader("database.json"));
             String clientAccNum = (String) database.get("Client_Account_number");
             String clientPin = (String) database.get("Client_Pin");
@@ -99,9 +102,9 @@ public class banking_feautres {
             }
             else{
                 System.out.println("oops seems like youre not a member wanna register? Y/N");
-                char option = 'N';
+                String option = input.nextLine();
 
-                if (option == 'Y')
+                if (option == "Y")
                 {
                     Registration();
                 }
